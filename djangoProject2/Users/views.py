@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -78,6 +78,7 @@ def about(request):
 
 
 def loginpage(request):
+    logoutfunction(request)
     form = LogInForm(request.POST)
     if request.method == "POST":
         username = request.POST.get('username')
@@ -137,3 +138,8 @@ def consultant_upload(request):
             doc.save()
             return redirect('consultant-home-page')
     return render(request, 'Consultant/consultant_upload.html', {'form': form, 'consultant_pr': consultant_pr})
+
+@login_required
+def logoutfunction(request):
+    logout(request)
+    return redirect('login-page')
