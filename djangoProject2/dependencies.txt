@@ -1,0 +1,1 @@
+pip install Django asgiref certifi chardet django-elasticsearch-dsl django-elasticsearch-dsl-drf django-nine djangorestframework elasticsearch elasticsearch-dsl idna pip python-dateutil pytz requests setuptools six sqlparse urllib3 wheel

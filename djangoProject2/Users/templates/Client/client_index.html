@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Client Document</title>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Client given options in Elastic Search, documents selection and options to access other pages" />
+    <meta name="keywords" content="Documents, RMS, E-Risk360" />
+    <meta name="author" content="Priya Dhaduk" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+
+<body>
+    <header class="heading">
+        <nav class="navbar navbar-expand-lg bg-white navbar-light top-bar fixed-top">
+            <div class="container-fluid">
+                <a href="https://e-risk360.com.au/" class="logo navbar-brand col-sm-3 col-md-2 mr-0"><img src="{%static 'images/ERiskLogoFromSite.png'%}" id="img" alt="E-Risk360 Logo"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-auto " id="text">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle mb-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg viewBox="0 0 100 80" width="20" height="20" onclick="myFunction(this)" id="drop">
+                                    <rect width="100" height="20" id="first-bar"></rect>
+                                    <rect y="30" width="100" height="20" id="second-bar"></rect>
+                                    <rect y="60" width="100" height="20" id="third-bar"></rect>
+                                </svg>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Services</a></li>
+                                <li><a class="dropdown-item" href="#">About Us</a></li>
+                                <li><a class="dropdown-item" href="#">Help</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{% url 'login-page' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                        <li class="d-flex mb-auto mt-1">
+                            <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="card position-fixed" id="position">
+        <strong class="text-center">PROFILE</strong>
+        <img class="card-img-top" src="{% static 'images/profile.png' %}" alt="Card image cap" id="image">
+        <div class="card-body" id="content">
+            <h6 class="card-title">Name: {{client_pr.first_name}}</h6>
+            <h6 class="card-title">User ID: {{user.id}}</h6>
+        </div>
+    </div>
+
+    <div class="col-9 position-absolute imp">
+        <div class="p-4  border bg-white">
+            <!-- For document 1-->
+            {% for event in events %}
+
+            <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..." />
+
+            <button type="button" class="accordion" data-toggle="modal" data-target="#myModal">
+                
+<!--                Document 1-->
+                <p>Event id: {{ event.event_id }}</p>
+                {% for document in event.document_set.all %}
+                    <p>document name: {{ document.document_name }}</p>
+                    <!-- Use document.path.url instead of manually rendering its url -->
+                    <p>path: <a href="{{ document.path.url }}">{{ document.path }} </a></p>
+                {% endfor%}
+                
+            </button>
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Document Title</h4>
+                        </div>
+                        <div class="modal-body" id="modal">
+                            <strong>Details of the Document:</strong>
+                            <p>Document ID -</p>
+                            <p>Document Name -</p>
+                            <p>Document Description</p>
+                        </div>
+                        <div class="modal-body" id="modal">
+                            <strong>Comment Section:</strong>
+                            <p>Comments go here....</p>
+                        </div>
+                        <div class="modal-body" id="comment">
+                            <!-- <div class="container pb-cmnt-container"> -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-info">
+                                        <div class="card-block">
+                                            <textarea placeholder="Write your comment here!" class="pb-cmnt-textarea"></textarea>
+                                            <form class="form-inline">
+                                                <div class="btn-group">
+                                                    <button class="btn" type="button"><span class="fa fa-music "></span></button>
+                                                    <button class="btn" type="button"><span class="fa fa-microphone "></span></button>
+                                                    <button class="btn" type="button"><span class="fas fa-search"></span></button>
+                                                    <button class="btn" type="button"><span class="fa fa-kill "></span></button>
+                                                </div>
+                                                <button class="btn btn-primary float-xs-right" type="button">Share</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor%}
+        </div>
+    </div>
+    <!-- </div> -->
+
+    <div id="links" class="">
+        <div class="p-5 ">
+            <nav class="nav flex-column sidebar">
+<!--                <a class=" nav-link border border-success rounded" href="client_index_-_Copy.html" id="s1">Documents</a>-->
+                <a class=" nav-link border border-success rounded" href="{% url  'client-upload-page' %}" id="s3">Upload</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="l_c_h">
+        <div class="c_h">
+            <div class="left_c">
+                <div class="left right_c left_icons">
+                </div>
+                <div class="text-center">
+                    <!--center_icons-->
+                    Chat with Us
+                </div>
+                <!--end center_icons-->
+            </div>
+            <div class="right right_c" style="width:35px;">
+                <a href="#" class="logout" title="End chat" name="" style="display:none;"><img src="chat/logout.png"></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="chat_container" style="display: none;">
+            <p class="no_provider">
+
+                Operator Joined the Chat.
+            </p>
+
+            <div class="chat_message" style="display: none;">
+                <input type="hidden" class="my_user" value="">
+            </div>
+            <div class="chat_text_area" style="display:none;">
+                <textarea name="messag_send" class="messag_send" id="messag_send" placeholder="Enter Your Message and press CTRL"></textarea>
+            </div>
+            <div class="chat_entry">
+                <form name="chat_form" class="chat_form has-validation-callback" id="chat_form" onsubmit="return false;">
+                    <p>
+                        <input type="text" data-validation="required" name="user_chat" id="user_chat" class="user_chat" placeholder="Enter Your Name">
+                        <input type="hidden" name="id" class="id" value="4919738359">
+                        <input type="hidden" name="web" class="web" value="webaddress/">
+                    </p>
+                    <p>
+                        <input type="text" data-validation="email" name="email_chat" id="email_chat" class="email_chat" placeholder="Enter Your Email">
+                    </p>
+                    <p>
+                        <input type="text" data-validation="number" name="number_chat" id="number_chat" class="number_chat" placeholder="Enter Your Number">
+                    </p>
+                    <p style="text-align:left;">
+                        <input type="submit" name="chat_submit" class="chat_submit" id="chat_submit" value="Start Chat">
+                    </p>
+                </form>
+            </div>
+
+            <p class="footer_c">
+                Powered by <a href="https://e-risk360.com.au/" target="_blank">E-Risk 360</a>
+            </p>
+        </div>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="{% static 'script.js' %}"></script>
+</body>
+
+</html>

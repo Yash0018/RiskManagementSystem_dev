@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for user in user_details %}
+        <h1>{{ user.id }}</h1>
+        <p>name: {{ user.name }}</p>
+        <p>email: {{ user.email }}</p>
+        <p>DOB: {{ user.DOB }}</p>
+        <p>status: {{ user.status }}</p>
+        <p>documents: {{ user.documents }}</p>
+    {% endfor %}
+{% endblock content %}
